@@ -109,3 +109,8 @@ modules:
       - 'desktop-file-edit --set-key=Exec --set-value=start-pantheon-tweaks /app/share/applications/io.github.pantheon_tweaks.pantheon-tweaks.desktop'
       # Tell the real executable name to the WM to prevent duplicated dock icons
       - 'desktop-file-edit --set-key=StartupWMClass --set-value=pantheon-tweaks /app/share/applications/io.github.pantheon_tweaks.pantheon-tweaks.desktop'
+      # workaround for non-png-icon-in-hicolor-size-folder lint error
+      # TODO: Fix in the next upstream release
+      - mkdir -p /app/share/icons/hicolor/scalable/apps
+      - mv /app/share/icons/hicolor/128x128/apps/${FLATPAK_ID}.svg /app/share/icons/hicolor/scalable/apps/${FLATPAK_ID}.svg
+      - find /app/share/icons/hicolor -type f -not -path "*scalable*" -not -path "*actions*" -name "*.svg" -delete
