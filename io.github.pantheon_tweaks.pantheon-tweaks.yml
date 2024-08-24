@@ -99,6 +99,9 @@ modules:
         sha256: 2396645aaa53ce4340cb5e7780d5caf924fecf213c9eb0ed6b5ea39fe2d9be2d
       - type: file
         path: start-pantheon-tweaks.sh
+      # TODO: Remove on new upstream release
+      - type: patch
+        path: 0001-AppearancePane-Remove-access-to-Gala-s-appearance-sc.patch
     post-install:
       # Install wrapper script
       - install -Dm 755 $FLATPAK_BUILDER_BUILDDIR/start-pantheon-tweaks.sh /app/bin/start-pantheon-tweaks
