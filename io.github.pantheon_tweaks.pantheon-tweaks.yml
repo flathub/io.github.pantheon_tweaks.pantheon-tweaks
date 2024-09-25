@@ -110,8 +110,8 @@ modules:
       - '/share/icons'
     sources:
       - type: archive
-        url: https://github.com/elementary/switchboard/archive/refs/tags/8.0.0.tar.gz
-        sha256: 99bf58f47b5cbdcfaf0415ff6ff5661fd4b18d779432884b6a62ef71f54be098
+        url: https://github.com/elementary/switchboard/archive/refs/tags/8.0.1.tar.gz
+        sha256: 6e17b9dc612b8f6e7da0cfd73e677d071019d6a2d4b2c2cf5f3c50a4a2f15835
 
   - name: pantheon-tweaks
     buildsystem: meson
@@ -121,7 +121,7 @@ modules:
       #  sha256: 2396645aaa53ce4340cb5e7780d5caf924fecf213c9eb0ed6b5ea39fe2d9be2d
       - type: git
         url: https://github.com/pantheon-tweaks/pantheon-tweaks.git
-        commit: dcd6049c50a725a406c14d2399281d887d5634d2
+        commit: 37e8c059852f825e7ec75c9dd3de9a0eda1b5816
       - type: file
         path: start-pantheon-tweaks.sh
     post-install:
