@@ -116,12 +116,9 @@ modules:
   - name: pantheon-tweaks
     buildsystem: meson
     sources:
-      #- type: archive
-      #  url: https://github.com/pantheon-tweaks/pantheon-tweaks/archive/refs/tags/2.0.2.tar.gz
-      #  sha256: 2396645aaa53ce4340cb5e7780d5caf924fecf213c9eb0ed6b5ea39fe2d9be2d
-      - type: git
-        url: https://github.com/pantheon-tweaks/pantheon-tweaks.git
-        commit: 37e8c059852f825e7ec75c9dd3de9a0eda1b5816
+      - type: archive
+        url: https://github.com/pantheon-tweaks/pantheon-tweaks/archive/refs/tags/2.1.0.tar.gz
+        sha256: d6a838dc3c4d606978525df723e57c96641074575b5d52827ee56159023186ab
       - type: file
         path: start-pantheon-tweaks.sh
     post-install:
