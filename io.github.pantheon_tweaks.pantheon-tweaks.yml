@@ -1,7 +1,7 @@
 id: io.github.pantheon_tweaks.pantheon-tweaks
 # elementary SDK is not available on Flathub, so use GNOME SDK and install elementary stylesheet and granite as modules
 runtime: org.gnome.Platform
-runtime-version: '47'
+runtime-version: '48'
 sdk: org.gnome.Sdk
 command: start-pantheon-tweaks
 finish-args:
@@ -22,15 +22,19 @@ finish-args:
   - --filesystem=host:ro
   - --env=DCONF_USER_CONFIG_DIR=.config/dconf
   - --env=GIO_EXTRA_MODULES=/app/lib/gio/modules/
-  # This is not recommended by Flathub though, we need it to access host's GSettings.
-  # From https://docs.flathub.org/docs/for-app-authors/linter/#finish-args-flatpak-spawn-access
-  #   This allows applications to launch arbitrary commands on the host and is restricted and granted on a case-by-case basis.
-  #   This must not be used unless absolutely necessary and when no existing solutions using Flatpak or portals exist.
+  # WARNING: This allows us to launch arbitrary commands on the host, which is not recommended for security reasons.
+  # We use this to get XDG_DATA_DIRS environment value of the host system with the flatpak-spawn command
+  # to read/write GSettings of the host system, which is not possible with existing solutions using Flatpak or portals.
+  # See start-pantheon-tweaks.sh for implementation details.
+  # We've granted an exception to use this on Flathub in https://github.com/flathub-infra/flatpak-builder-lint/pull/399
+  # WE MUST NOT ABUSE THIS EXCEPTION FOR ANY REASON FOREVER.
   - --talk-name=org.freedesktop.Flatpak
 
   # Needed for PrefersAccentColor
   - --system-talk-name=org.freedesktop.Accounts
 build-options:
+  # Explicit libdir because some dependency libraries are installed under /app/lib64 on some amd64 build environments
+  # and we can't detect them when building our apps
   libdir: /app/lib
 modules:
   # Patch dconf to read/write GSettings of the host
@@ -50,6 +54,9 @@ modules:
       - type: archive
         url: https://download.gnome.org/sources/dconf/0.40/dconf-0.40.0.tar.xz
         sha256: cf7f22a4c9200421d8d3325c5c1b8b93a36843650c9f95d6451e20f0bcb24533
+        x-checker-data:
+          type: gnome
+          name: dconf
       - type: patch
         path: dconf-override.patch
 
@@ -84,9 +91,13 @@ modules:
     cleanup:
       - /share/metainfo
     sources:
-      - type: archive
-        url: https://github.com/elementary/stylesheet/archive/refs/tags/8.2.0.tar.gz
-        sha256: c63a344a312a72adb20af370d5810d0961b7fbf88c67fc5d08b1226bbcba7dc6
+      - type: git
+        url: https://github.com/elementary/stylesheet.git
+        tag: 8.2.0
+        commit: 039492a3b1cfb99524dd2982dd2dc4d3cb9c78d6
+        x-checker-data:
+          type: git
+          tag-pattern: '^([\d.]+)$'
 
   - name: granite
     buildsystem: meson
@@ -96,9 +107,13 @@ modules:
       - /share/icons
       - /share/metainfo
     sources:
-      - type: archive
-        url: https://github.com/elementary/granite/archive/refs/tags/7.6.0.tar.gz
-        sha256: 4b4e4f7f86eb3f55116faec42ebd87e04c3e424d82715ecd967ed39540dca5ef
+      - type: git
+        url: https://github.com/elementary/granite.git
+        tag: 7.6.0
+        commit: 065ba1f245b60ef867a6ca145e0891cf84eddcc7
+        x-checker-data:
+          type: git
+          tag-pattern: '^([\d.]+)$'
 
   - name: switchboard
     buildsystem: meson
@@ -110,9 +125,13 @@ modules:
       - /share/glib-2.0/schemas/io.elementary.settings.gschema.xml
       - /share/icons
     sources:
-      - type: archive
-        url: https://github.com/elementary/switchboard/archive/refs/tags/8.0.2.tar.gz
-        sha256: 27b42c67eedf2493db4e40c7d238196cb8f0c1d74e41cb81ed1c39b85180da03
+      - type: git
+        url: https://github.com/elementary/switchboard.git
+        tag: 8.0.2
+        commit: efd9be85b539f7ff816d5f1e24f1e478b3593e1f
+        x-checker-data:
+          type: git
+          tag-pattern: '^([\d.]+)$'
 
   - name: pantheon-tweaks
     buildsystem: meson
@@ -120,9 +139,10 @@ modules:
       # Pass the directory where the host's /usr/share is mounted, so that we can load system theme files
       - -Dsystheme_rootdir=/var/run/host/usr/share
     sources:
-      - type: archive
-        url: https://github.com/pantheon-tweaks/pantheon-tweaks/archive/refs/tags/2.2.0.tar.gz
-        sha256: 6fce1e6a326a33e459c238f74367f281a13e2cdbd4bd712e4a852b4bbeec3483
+      - type: git
+        url: https://github.com/pantheon-tweaks/pantheon-tweaks.git
+        tag: 2.2.1
+        commit: cbdbe04de9b8a9b2a1390bec6ab9ac9971b5fc2e
       - type: file
         path: start-pantheon-tweaks.sh
     post-install:
