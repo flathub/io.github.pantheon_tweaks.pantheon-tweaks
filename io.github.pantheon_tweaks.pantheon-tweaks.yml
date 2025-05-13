@@ -93,11 +93,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/elementary/stylesheet.git
-        tag: 8.2.0
-        commit: 039492a3b1cfb99524dd2982dd2dc4d3cb9c78d6
+        tag: 8.2.1
+        commit: 5bd252f584929be05e3a0cef23aba4d006c3c133
         x-checker-data:
           type: git
-          tag-pattern: '^([\d.]+)$'
+          tag-pattern: ^([\d.]+)$
 
   - name: granite
     buildsystem: meson
@@ -113,7 +113,7 @@ modules:
         commit: 065ba1f245b60ef867a6ca145e0891cf84eddcc7
         x-checker-data:
           type: git
-          tag-pattern: '^([\d.]+)$'
+          tag-pattern: ^([\d.]+)$
 
   - name: switchboard
     buildsystem: meson
@@ -131,7 +131,7 @@ modules:
         commit: efd9be85b539f7ff816d5f1e24f1e478b3593e1f
         x-checker-data:
           type: git
-          tag-pattern: '^([\d.]+)$'
+          tag-pattern: ^([\d.]+)$
 
   - name: pantheon-tweaks
     buildsystem: meson
