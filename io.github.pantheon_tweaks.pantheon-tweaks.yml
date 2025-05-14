@@ -1,5 +1,7 @@
 id: io.github.pantheon_tweaks.pantheon-tweaks
-# elementary SDK is not available on Flathub, so use GNOME SDK and install elementary stylesheet and granite as modules
+# elementary SDK is not available on Flathub, so use the elementary BaseApp instead
+base: io.elementary.BaseApp
+base-version: 'circe-24.08'
 runtime: org.gnome.Platform
 runtime-version: '48'
 sdk: org.gnome.Sdk
@@ -60,61 +62,6 @@ modules:
       - type: patch
         path: dconf-override.patch
 
-  - name: sassc
-    cleanup:
-      - '*'
-    buildsystem: autotools
-    sources:
-      - type: archive
-        url: https://github.com/sass/sassc/archive/refs/tags/3.6.2.tar.gz
-        sha256: 608dc9002b45a91d11ed59e352469ecc05e4f58fc1259fc9a9f5b8f0f8348a03
-      - type: script
-        dest-filename: autogen.sh
-        commands:
-          - autoreconf -si
-    modules:
-      - name: libsass
-        cleanup:
-          - '*'
-        buildsystem: autotools
-        sources:
-          - type: archive
-            url: https://github.com/sass/libsass/archive/refs/tags/3.6.5.tar.gz
-            sha256: 89d8f2c46ae2b1b826b58ce7dde966a176bac41975b82e84ad46b01a55080582
-          - type: script
-            dest-filename: autogen.sh
-            commands:
-              - autoreconf -si
-
-  - name: elementary-stylesheet
-    buildsystem: meson
-    cleanup:
-      - /share/metainfo
-    sources:
-      - type: git
-        url: https://github.com/elementary/stylesheet.git
-        tag: 8.2.0
-        commit: 039492a3b1cfb99524dd2982dd2dc4d3cb9c78d6
-        x-checker-data:
-          type: git
-          tag-pattern: '^([\d.]+)$'
-
-  - name: granite
-    buildsystem: meson
-    config-opts:
-      - -Ddemo=false
-    cleanup:
-      - /share/icons
-      - /share/metainfo
-    sources:
-      - type: git
-        url: https://github.com/elementary/granite.git
-        tag: 7.6.0
-        commit: 065ba1f245b60ef867a6ca145e0891cf84eddcc7
-        x-checker-data:
-          type: git
-          tag-pattern: '^([\d.]+)$'
-
   - name: switchboard
     buildsystem: meson
     cleanup:
@@ -141,8 +88,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/pantheon-tweaks/pantheon-tweaks.git
-        tag: 2.2.1
-        commit: cbdbe04de9b8a9b2a1390bec6ab9ac9971b5fc2e
+        tag: 2.3.0
+        commit: 2c640ae1b353b518fd0423d3e890089973bb9b5e
       - type: file
         path: start-pantheon-tweaks.sh
     post-install:
