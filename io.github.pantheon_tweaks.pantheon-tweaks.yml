@@ -88,8 +88,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/pantheon-tweaks/pantheon-tweaks.git
-        tag: 2.3.0
-        commit: 2c640ae1b353b518fd0423d3e890089973bb9b5e
+        tag: 2.4.0
+        commit: 5084397f9927447eee3c7a61e53066ff05b02669
       - type: file
         path: start-pantheon-tweaks.sh
     post-install:
