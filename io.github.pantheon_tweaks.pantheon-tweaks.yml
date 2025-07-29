@@ -1,7 +1,7 @@
 id: io.github.pantheon_tweaks.pantheon-tweaks
 # elementary SDK is not available on Flathub, so use the elementary BaseApp instead
 base: io.elementary.BaseApp
-base-version: 'circe-24.08'
+base-version: circe-24.08
 runtime: org.gnome.Platform
 runtime-version: '48'
 sdk: org.gnome.Sdk
@@ -74,11 +74,11 @@ modules:
     sources:
       - type: git
         url: https://github.com/elementary/switchboard.git
-        tag: 8.0.2
-        commit: efd9be85b539f7ff816d5f1e24f1e478b3593e1f
+        tag: 8.0.3
+        commit: 6714b3c8f6d0e6d386c3190e1c15b1d651faae2a
         x-checker-data:
           type: git
-          tag-pattern: '^([\d.]+)$'
+          tag-pattern: ^([\d.]+)$
 
   - name: pantheon-tweaks
     buildsystem: meson
