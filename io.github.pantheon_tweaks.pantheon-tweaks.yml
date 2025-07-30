@@ -56,9 +56,6 @@ modules:
       - type: archive
         url: https://download.gnome.org/sources/dconf/0.40/dconf-0.40.0.tar.xz
         sha256: cf7f22a4c9200421d8d3325c5c1b8b93a36843650c9f95d6451e20f0bcb24533
-        x-checker-data:
-          type: gnome
-          name: dconf
       - type: patch
         path: dconf-override.patch
 
@@ -76,9 +73,6 @@ modules:
         url: https://github.com/elementary/switchboard.git
         tag: 8.0.3
         commit: 6714b3c8f6d0e6d386c3190e1c15b1d651faae2a
-        x-checker-data:
-          type: git
-          tag-pattern: ^([\d.]+)$
 
   - name: pantheon-tweaks
     buildsystem: meson
