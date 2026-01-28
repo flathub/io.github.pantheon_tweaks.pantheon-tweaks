@@ -59,20 +59,19 @@ modules:
       - type: patch
         path: dconf-override.patch
 
-  - name: switchboard
+  - name: system-settings
     buildsystem: meson
     cleanup:
-      # We use switchboard as a widget library; cleanup the unnecessary system settings app
+      # We use System Settings as a widget library; cleanup the unnecessary System Settings app
       - /share/applications
       - /share/metainfo
       - /bin
       - /share/glib-2.0/schemas/io.elementary.settings.gschema.xml
       - /share/icons
     sources:
-      - type: git
-        url: https://github.com/elementary/switchboard.git
-        tag: 8.0.3
-        commit: 6714b3c8f6d0e6d386c3190e1c15b1d651faae2a
+      - type: archive
+        url: https://github.com/elementary/settings/archive/8.0.3.tar.gz
+        sha256: cc41024b918cfcd0bd89b3c72e079ff12804cebefbaf34d5adb84191531ee7d1
 
   - name: pantheon-tweaks
     buildsystem: meson
@@ -80,10 +79,9 @@ modules:
       # Pass the directory where the host's /usr/share is mounted, so that we can load system theme files
       - -Dsystheme_rootdir=/var/run/host/usr/share
     sources:
-      - type: git
-        url: https://github.com/pantheon-tweaks/pantheon-tweaks.git
-        tag: 2.5.0
-        commit: 045820e85c163e14bc2f56eb0cd79af728830114
+      - type: archive
+        url: https://github.com/pantheon-tweaks/pantheon-tweaks/archive/refs/tags/2.5.1.tar.gz
+        sha256: 2cd90637dfa97ef0b362b236a188f5996b6dea1ed72c34aee12a72138d51e6b9
       - type: file
         path: start-pantheon-tweaks.sh
     post-install:
