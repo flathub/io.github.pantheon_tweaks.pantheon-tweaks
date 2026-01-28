@@ -80,7 +80,7 @@ modules:
       - -Dsystheme_rootdir=/var/run/host/usr/share
     sources:
       - type: archive
-        url: https://github.com/pantheon-tweaks/pantheon-tweaks/archive/refs/tags/2.5.1.tar.gz
+        url: https://github.com/pantheon-tweaks/pantheon-tweaks/archive/2.5.1.tar.gz
         sha256: 2cd90637dfa97ef0b362b236a188f5996b6dea1ed72c34aee12a72138d51e6b9
       - type: file
         path: start-pantheon-tweaks.sh
