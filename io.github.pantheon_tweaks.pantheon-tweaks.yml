@@ -3,7 +3,7 @@ id: io.github.pantheon_tweaks.pantheon-tweaks
 base: io.elementary.BaseApp
 base-version: circe-25.08
 runtime: org.gnome.Platform
-runtime-version: '49'
+runtime-version: '50'
 sdk: org.gnome.Sdk
 command: start-pantheon-tweaks
 finish-args:
@@ -38,6 +38,14 @@ build-options:
   # Explicit libdir because some dependency libraries are installed under /app/lib64 on some amd64 build environments
   # and we can't detect them when building our apps
   libdir: /app/lib
+cleanup:
+  - /include
+  - /lib/girepository-1.0
+  - /lib/pkgconfig
+  - /share/gir-1.0
+  - /share/vala
+cleanup-commands:
+  - /app/cleanup-BaseApp.sh
 modules:
   # Patch dconf to read/write GSettings of the host
   - name: dconf
@@ -72,6 +80,32 @@ modules:
       - type: archive
         url: https://github.com/elementary/settings/archive/8.0.3.tar.gz
         sha256: cc41024b918cfcd0bd89b3c72e079ff12804cebefbaf34d5adb84191531ee7d1
+    modules:
+      - name: sassc
+        cleanup:
+          - '*'
+        buildsystem: autotools
+        sources:
+          - type: archive
+            url: https://github.com/sass/sassc/archive/3.6.2.tar.gz
+            sha256: 608dc9002b45a91d11ed59e352469ecc05e4f58fc1259fc9a9f5b8f0f8348a03
+          - type: script
+            dest-filename: autogen.sh
+            commands:
+              - autoreconf -si
+        modules:
+          - name: libsass
+            cleanup:
+              - '*'
+            buildsystem: autotools
+            sources:
+              - type: archive
+                url: https://github.com/sass/libsass/archive/3.6.5.tar.gz
+                sha256: 89d8f2c46ae2b1b826b58ce7dde966a176bac41975b82e84ad46b01a55080582
+              - type: script
+                dest-filename: autogen.sh
+                commands:
+                  - autoreconf -si
 
   - name: pantheon-tweaks
     buildsystem: meson
@@ -79,9 +113,10 @@ modules:
       # Pass the directory where the host's /usr/share is mounted, so that we can load system theme files
       - -Dsystheme_rootdir=/var/run/host/usr/share
     sources:
-      - type: archive
-        url: https://github.com/pantheon-tweaks/pantheon-tweaks/archive/2.5.1.tar.gz
-        sha256: 2cd90637dfa97ef0b362b236a188f5996b6dea1ed72c34aee12a72138d51e6b9
+      - type: git
+        url: https://github.com/pantheon-tweaks/pantheon-tweaks.git
+        tag: 2.5.2
+        commit: a44447be60048831c05d63dc206b835f14990f7c
       - type: file
         path: start-pantheon-tweaks.sh
     post-install:
